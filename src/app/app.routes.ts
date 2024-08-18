@@ -19,18 +19,22 @@ export const routes: Routes = [
   },
   {
     path: 'blog',
+    title: 'Blog',
     component: BlogComponent,
   },
   {
     path: 'services',
+    title: 'Services',
     component: ServiceComponent,
   },
   {
     path: 'contact',
+    title: 'Contact',
     component: ContactComponent,
   },
   {
     path: 'appointment',
+    title: 'Appointment',
     component: AppointmentComponent,
   },
   {
