@@ -1,11 +1,11 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './page/home/home.component';
-import { Error404Component } from './page/error-404/error-404.component';
-import { BlogComponent } from './page/blog/blog.component';
-import { ContactComponent } from './page/contact/contact.component';
-import { ServiceComponent } from './page/service/service.component';
-import { AppointmentComponent } from './page/appointment/appointment.component';
-import { LoginComponent } from './page/auth/login/login.component';
+import { HomeComponent } from './pages/home/home.component';
+import { Error404Component } from './pages/error-404/error-404.component';
+import { BlogComponent } from './pages/blog/blog.component';
+import { ContactComponent } from './pages/contact/contact.component';
+import { ServiceComponent } from './pages/service/service.component';
+import { AppointmentComponent } from './pages/appointment/appointment.component';
+import { LoginComponent } from './pages/auth/login/login.component';
 import { MainComponent } from './layouts/main/main.component';
 import { AuthComponent } from './layouts/auth/auth.component';
 
