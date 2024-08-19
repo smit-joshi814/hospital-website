@@ -48,7 +48,7 @@ export const routes: Routes = [
     ],
   },
   {
-    path: 'auth/admin',
+    path: 'auth',
     title: 'Admin Login',
     component: AuthComponent,
     children: [
