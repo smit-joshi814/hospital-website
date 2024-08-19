@@ -9,7 +9,6 @@ import { PortfolioComponent } from './portfolio/portfolio.component';
 import { TableComponent } from './table/table.component';
 import { BlogComponent } from './blog/blog.component';
 import { ClientsComponent } from './clients/clients.component';
-import { AppointmentComponent } from '../appointment/appointment.component';
 
 @Component({
   selector: 'app-home',

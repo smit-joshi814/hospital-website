@@ -1,4 +1,4 @@
-<!-- Start portfolio -->
+<!-- Start Portfolio -->
 <section class="portfolio section">
     <div class="container">
         <div class="row">
@@ -15,41 +15,16 @@
         <div class="row">
             <div class="col-lg-12 col-12">
                 <div class="owl-carousel portfolio-slider">
+                    <!-- Loop through portfolioItems array -->
+                    @for (item of portfolioItems; track $index) {
                     <div class="single-pf">
-                        <img src="assets/img/pf1.jpg" alt="#">
-                        <a routerLink="/blog" class="btn">View Details</a>
+                        <img [src]="item.imageUrl" alt="#">
+                        <a [routerLink]="item.detailsLink" class="btn">View Details</a>
                     </div>
-                    <div class="single-pf">
-                        <img src="assets/img/pf2.jpg" alt="#">
-                        <a routerLink="/blog" class="btn">View Details</a>
-                    </div>
-                    <div class="single-pf">
-                        <img src="assets/img/pf3.jpg" alt="#">
-                        <a routerLink="/blog" class="btn">View Details</a>
-                    </div>
-                    <div class="single-pf">
-                        <img src="assets/img/pf4.jpg" alt="#">
-                        <a routerLink="/blog" class="btn">View Details</a>
-                    </div>
-                    <div class="single-pf">
-                        <img src="assets/img/pf1.jpg" alt="#">
-                        <a routerLink="/blog" class="btn">View Details</a>
-                    </div>
-                    <div class="single-pf">
-                        <img src="assets/img/pf2.jpg" alt="#">
-                        <a routerLink="/blog" class="btn">View Details</a>
-                    </div>
-                    <div class="single-pf">
-                        <img src="assets/img/pf3.jpg" alt="#">
-                        <a routerLink="/blog" class="btn">View Details</a>
-                    </div>
-                    <div class="single-pf">
-                        <img src="assets/img/pf4.jpg" alt="#">
-                        <a routerLink="/blog" class="btn">View Details</a>
-                    </div>
+                    }
                 </div>
             </div>
         </div>
     </div>
 </section>
-<!--/ End portfolio -->
+<!--/ End Portfolio -->

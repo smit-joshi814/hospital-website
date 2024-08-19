@@ -8,6 +8,8 @@ import { AppointmentComponent } from './pages/appointment/appointment.component'
 import { LoginComponent } from './pages/auth/login/login.component';
 import { MainComponent } from './layouts/main/main.component';
 import { AuthComponent } from './layouts/auth/auth.component';
+import { AdminComponent } from './layouts/admin/admin.component';
+import { DashboardComponent } from './admin/dashboard/dashboard.component';
 
 export const routes: Routes = [
   {
@@ -62,6 +64,23 @@ export const routes: Routes = [
         title: 'Admin Login',
         component: LoginComponent,
       },
+    ],
+  },
+  {
+    path: 'admin',
+    title: 'Admin Dashboard',
+    component: AdminComponent,
+    children: [
+      {
+        path: '',
+        title: 'dashboard',
+        component: DashboardComponent,
+      },
+      {
+        path:'dashboard',
+        title: 'dashboard',
+        component:DashboardComponent
+      }
     ],
   },
   {
