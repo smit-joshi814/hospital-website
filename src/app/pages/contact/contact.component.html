@@ -23,46 +23,65 @@
     <div class="container">
         <div class="inner">
             <div class="row">
-
                 <div class="col-lg-12">
                     <div class="contact-us-form">
                         <h2>Contact With Us</h2>
-                        <p>If you have any questions please fell free to contact with us.</p>
+                        <p>If you have any questions, please feel free to contact us.</p>
                         <!-- Form -->
-                        <form class="form" method="post" action="mail/mail.php">
+                        <form class="form" [formGroup]="contactForm" (ngSubmit)="onSubmit()">
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <input type="text" name="name" placeholder="Name" required="">
+                                        <input type="text" formControlName="name" placeholder="Name">
+                                        <div *ngIf="isInvalid('name')" class="text-danger">
+                                            Name is required.
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <input type="email" name="email" placeholder="Email" required="">
+                                        <input type="email" formControlName="email" placeholder="Email">
+                                        <div *ngIf="isInvalid('email')" class="text-danger">
+                                            <div *ngIf="contactForm.get('email')?.errors?.['required']">Email is
+                                                required.</div>
+                                            <div *ngIf="contactForm.get('email')?.errors?.['email']">Invalid email
+                                                address.</div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <input type="text" name="phone" placeholder="Phone" required="">
+                                        <input type="text" formControlName="phone" placeholder="Phone">
+                                        <div *ngIf="isInvalid('phone')" class="text-danger">
+                                            Phone number is required.
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <input type="text" name="subject" placeholder="Subject" required="">
+                                        <input type="text" formControlName="subject" placeholder="Subject">
+                                        <div *ngIf="isInvalid('subject')" class="text-danger">
+                                            Subject is required.
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <textarea name="message" placeholder="Your Message" required=""></textarea>
+                                        <textarea formControlName="message" placeholder="Your Message"></textarea>
+                                        <div *ngIf="isInvalid('message')" class="text-danger">
+                                            Message is required.
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group login-btn">
-                                        <button class="btn" type="submit">Send</button>
+                                        <button class="btn" type="submit" [disabled]="!contactForm.valid">Send</button>
                                     </div>
-                                    <div class="checkbox">
-                                        <label class="checkbox-inline" for="2"><input name="news" id="2"
-                                                type="checkbox">Do you want to subscribe our Newsletter ?</label>
+                                    <div class="mt-3">
+                                        <label class="checkbox-inline">
+                                            <input formControlName="subscribe" type="checkbox"> Do you want to subscribe
+                                            to our Newsletter?
+                                        </label>
                                     </div>
                                 </div>
                             </div>
@@ -75,29 +94,29 @@
         <div class="contact-info">
             <div class="row">
                 <!-- single-info -->
-                <div class="col-lg-4 col-12 ">
+                <div class="col-lg-4 col-12">
                     <div class="single-info">
                         <i class="icofont icofont-ui-call"></i>
                         <div class="content">
                             <h3>+(000) 1234 56789</h3>
-                            <p>info"&#64;company.com</p>
+                            <p>info&#64;company.com</p>
                         </div>
                     </div>
                 </div>
                 <!--/End single-info -->
                 <!-- single-info -->
-                <div class="col-lg-4 col-12 ">
+                <div class="col-lg-4 col-12">
                     <div class="single-info">
                         <i class="icofont-google-map"></i>
                         <div class="content">
-                            <h3>2 Fir e Brigade Road</h3>
+                            <h3>2 Fire Brigade Road</h3>
                             <p>Chittagonj, Lakshmipur</p>
                         </div>
                     </div>
                 </div>
                 <!--/End single-info -->
                 <!-- single-info -->
-                <div class="col-lg-4 col-12 ">
+                <div class="col-lg-4 col-12">
                     <div class="single-info">
                         <i class="icofont icofont-wall-clock"></i>
                         <div class="content">
@@ -113,5 +132,5 @@
 </section>
 <!--/ End Contact Us -->
 } @placeholder {
-    <app-custom-spinner />
+<app-custom-spinner />
 }

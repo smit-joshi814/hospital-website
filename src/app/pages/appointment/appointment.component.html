@@ -32,58 +32,60 @@
         </div>
         <div class="row">
             <div class="col-lg-6 col-md-12 col-12">
-                <form class="form" action="#">
+                <form class="form" [formGroup]="appointmentForm" (ngSubmit)="onSubmit()">
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-12">
                             <div class="form-group">
-                                <input name="name" type="text" placeholder="Name">
+                                <input formControlName="name" type="text" placeholder="Name">
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-12">
                             <div class="form-group">
-                                <input name="email" type="email" placeholder="Email">
+                                <input formControlName="email" type="email" placeholder="Email">
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-12">
                             <div class="form-group">
-                                <input name="phone" type="text" placeholder="Phone">
+                                <input formControlName="phone" type="text" placeholder="Phone">
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-12">
                             <div class="form-group">
-                                <div class="nice-select form-control wide" tabindex="0"><span
-                                        class="current">Department</span>
+                                <div class="nice-select form-control wide" tabindex="0">
+                                    <span class="current">Department</span>
                                     <ul class="list">
-                                        <li data-value="1" class="option selected ">Department</li>
-                                        <li data-value="2" class="option">Cardiac Clinic</li>
-                                        <li data-value="3" class="option">Neurology</li>
-                                        <li data-value="4" class="option">Dentistry</li>
-                                        <li data-value="5" class="option">Gastroenterology</li>
+                                        <li *ngFor="let dept of departments"
+                                            class="{{dept.id===appointmentForm.get('department')?.value?'option selected':'option'}}"
+                                            (click)="appointmentForm.get('department')?.setValue(dept.id)">
+                                            {{ dept.name }}
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-12">
                             <div class="form-group">
-                                <div class="nice-select form-control wide" tabindex="0"><span
-                                        class="current">Doctor</span>
+                                <div class="nice-select form-control wide" tabindex="0">
+                                    <span class="current">Doctor</span>
                                     <ul class="list">
-                                        <li data-value="1" class="option selected ">Doctor</li>
-                                        <li data-value="2" class="option">Dr. Akther Hossain</li>
-                                        <li data-value="3" class="option">Dr. Dery Alex</li>
-                                        <li data-value="4" class="option">Dr. Jovis Karon</li>
+                                        <li *ngFor="let doc of doctors"
+                                            class="{{doc.id===appointmentForm.get('doctor')?.value?'option selected':'option'}}"
+                                            (click)="appointmentForm.get('doctor')?.setValue(doc.id)">
+                                            {{ doc.name }}
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-12">
                             <div class="form-group">
-                                <input type="text" placeholder="Date" id="datepicker">
+                                <input type="date" placeholder="Date" id="datepicker" formControlName="date">
                             </div>
                         </div>
                         <div class="col-lg-12 col-md-12 col-12">
                             <div class="form-group">
-                                <textarea name="message" placeholder="Write Your Message Here....."></textarea>
+                                <textarea formControlName="message"
+                                    placeholder="Write Your Message Here....."></textarea>
                             </div>
                         </div>
                     </div>
@@ -91,17 +93,18 @@
                         <div class="col-lg-5 col-md-4 col-12">
                             <div class="form-group">
                                 <div class="button">
-                                    <button type="submit" class="btn">Book An Appointment</button>
+                                    <button type="submit" class="btn" [disabled]="!appointmentForm.valid">Book An
+                                        Appointment</button>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-7 col-md-8 col-12">
-                            <p>( We will be confirm by an Text Message )</p>
+                            <p>( We will confirm by a Text Message )</p>
                         </div>
                     </div>
                 </form>
             </div>
-            <div class="col-lg-6 col-md-12 ">
+            <div class="col-lg-6 col-md-12">
                 <div class="appointment-image">
                     <img src="assets/img/contact-img.png" alt="#">
                 </div>
@@ -110,6 +113,7 @@
     </div>
 </section>
 <!-- End Appointment -->
+
 }@placeholder {
 <app-custom-spinner />
 }
