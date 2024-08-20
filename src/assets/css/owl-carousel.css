@@ -37,7 +37,7 @@
 .owl-theme .owl-dots .owl-dot {
     display: inline-block;
     zoom: 1;
-    *display: inline; }
+    display: inline; }
 .owl-theme .owl-dots .owl-dot span {
     width: 10px;
     height: 10px;
@@ -227,7 +227,7 @@
   top: 50%;
   margin-left: -40px;
   margin-top: -40px;
-  background: url("owl.video.play.png") no-repeat;
+  background: url("../img/owl.video.play.png") no-repeat;
   cursor: pointer;
   z-index: 1;
   -webkit-backface-visibility: hidden;
@@ -266,4 +266,4 @@
 .owl-carousel .owl-video-frame {
   position: relative;
   z-index: 1;
-};
+}

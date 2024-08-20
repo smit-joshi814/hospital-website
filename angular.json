@@ -27,9 +27,40 @@
               }
             ],
             "styles": [
+              "src/assets/css/bootstrap.min.css",
+              "src/assets/css/nice-select.css",
+              "src/assets/css/font-awesome.min.css",
+              "src/assets/css/icofont.css",
+              "src/assets/css/slicknav.min.css",
+              "src/assets/css/owl-carousel.css",
+              "src/assets/css/datepicker.css",
+              "src/assets/css/animate.min.css",
+              "src/assets/css/magnific-popup.css",
+              "src/assets/css/normalize.css",
+              "src/assets/css/responsive.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/jquery.min.js",
+              "src/assets/js/jquery-migrate-3.0.0.js",
+              "src/assets/js/jquery-ui.min.js",
+              "src/assets/js/easing.js",
+              "src/assets/js/colors.js",
+              "src/assets/js/popper.min.js",
+              "src/assets/js/bootstrap-datepicker.js",
+              "src/assets/js/jquery.nav.js",
+              "src/assets/js/slicknav.min.js",
+              "src/assets/js/jquery.scrollUp.min.js",
+              "src/assets/js/niceselect.js",
+              "src/assets/js/tilt.jquery.min.js",
+              "src/assets/js/owl-carousel.js",
+              "src/assets/js/jquery.counterup.min.js",
+              "src/assets/js/steller.js",
+              "src/assets/js/wow.min.js",
+              "src/assets/js/jquery.magnific-popup.min.js",
+              "src/assets/js/bootstrap.min.js",
+              "src/assets/js/main.js"
+            ]
           },
           "configurations": {
             "production": {
