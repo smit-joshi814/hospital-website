@@ -27,27 +27,28 @@
               }
             ],
             "styles": [
-              "src/assets/css/bootstrap.min.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/assets/css/nice-select.css",
-              "src/assets/css/font-awesome.min.css",
-              "src/assets/css/icofont.css",
+              "node_modules/font-awesome/css/font-awesome.min.css",
+              "node_modules/icofont/dist/icofont.min.css",
               "src/assets/css/slicknav.min.css",
               "src/assets/css/owl-carousel.css",
-              "src/assets/css/datepicker.css",
-              "src/assets/css/animate.min.css",
+              "node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css",
+              "node_modules/animate.css/animate.min.css",
               "src/assets/css/magnific-popup.css",
               "src/assets/css/normalize.css",
               "src/assets/css/responsive.css",
               "src/styles.css"
             ],
             "scripts": [
-              "src/assets/js/jquery.min.js",
-              "src/assets/js/jquery-migrate-3.0.0.js",
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+              "node_modules/jquery-migrate/dist/jquery-migrate.min.js",
               "src/assets/js/jquery-ui.min.js",
               "src/assets/js/easing.js",
               "src/assets/js/colors.js",
               "src/assets/js/popper.min.js",
-              "src/assets/js/bootstrap-datepicker.js",
+              "node_modules/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js",
               "src/assets/js/jquery.nav.js",
               "src/assets/js/slicknav.min.js",
               "src/assets/js/jquery.scrollUp.min.js",
@@ -58,7 +59,7 @@
               "src/assets/js/steller.js",
               "src/assets/js/wow.min.js",
               "src/assets/js/jquery.magnific-popup.min.js",
-              "src/assets/js/bootstrap.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.min.js",
               "src/assets/js/main.js"
             ]
           },
@@ -67,8 +68,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "1.5MB",
+                  "maximumError": "3MB"
                 },
                 {
                   "type": "anyComponentStyle",
