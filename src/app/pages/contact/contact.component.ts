@@ -31,10 +31,6 @@ export class ContactComponent {
     });
   }
 
-  onCheckboxChange(event: any) {
-    this.contactForm.value.subscribe = event.target.checked;
-    console.log(this.contactForm.value.subscribe);
-  }
 
   onSubmit() {
     if (this.contactForm.valid) {

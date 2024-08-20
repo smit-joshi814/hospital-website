@@ -23,16 +23,25 @@
                     <div class="contact-us-form" style="text-align: -webkit-center;">
                         <h2>Login as Admin</h2>
                         <!-- Form -->
-                        <form class="form" method="post" action="mail/mail.php">
+                        <form class="form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
                             <div class="col">
                                 <div class="mb-3 col-lg-6">
                                     <div class="form-group">
-                                        <input type="email" name="email" placeholder="Email" required="">
+                                        <input type="email" formControlName="email" placeholder="Email">
+                                        <div *ngIf="isInvalid('email')" class="text-danger">
+                                            <div *ngIf="loginForm.get('email')?.errors?.['required']">Email is
+                                                required.</div>
+                                            <div *ngIf="loginForm.get('email')?.errors?.['email']">Invalid email
+                                                address.</div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="mb-3 col-lg-6">
                                     <div class="form-group">
-                                        <input type="password" name="password" placeholder="password" required="">
+                                        <input type="password" formControlName="password" placeholder="password">
+                                        <div *ngIf="isInvalid('password')" class="text-danger">
+                                            Phone number is required.
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-6">

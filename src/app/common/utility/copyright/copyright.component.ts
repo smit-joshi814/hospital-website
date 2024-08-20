@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-copyright',
   standalone: true,
-  imports: [],
   template: `
     <!-- Copyright -->
     <div class="copyright">
@@ -24,10 +23,10 @@ import { Component, OnInit } from '@angular/core';
   `,
   styles: ``,
 })
-export class CopyrightComponent implements OnInit {
-  currentYear: number | undefined;
+export class CopyrightComponent {
+  currentYear: number;
 
-  ngOnInit() {
+  constructor() {
     this.currentYear = new Date().getFullYear();
   }
 }
