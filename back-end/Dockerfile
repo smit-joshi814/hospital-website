@@ -1,14 +1,17 @@
-# Use an official OpenJDK runtime as a parent image
-FROM openjdk:17
+# Use a Debian-based OpenJDK runtime as a parent image
+FROM openjdk:17-slim
+
+# Install Maven in the container
+RUN apt-get update && apt-get install -y maven
 
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy the packaged JAR file into the container
-COPY target/hospital.jar /app/hospital.jar
-
 # Copy the entire project directory into the container
 COPY . /app
+
+# Build the project to create the jar file
+RUN mvn clean package -DskipTests
 
 # Expose the port the app runs on
 EXPOSE 8080
@@ -19,4 +22,4 @@ EXPOSE 8080
 # ENV SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
 
 # Specify the command to run on container start
-CMD ["java", "-jar", "hospital.jar"]
+CMD ["java", "-jar", "target/hospital.jar"]
