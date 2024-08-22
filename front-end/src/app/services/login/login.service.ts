@@ -31,4 +31,8 @@ export class LoginService {
     console.error(errorMessage);
     return throwError(errorMessage);
   }
+
+  isAuthenticated(): boolean {
+    return localStorage.getItem('token') ? true : false;
+  }
 }

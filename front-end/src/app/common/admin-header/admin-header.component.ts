@@ -10,4 +10,8 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 })
 export class AdminHeaderComponent {
  
+  clearStorage() {
+    localStorage.clear();
+  }
+
 }

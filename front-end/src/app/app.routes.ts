@@ -10,6 +10,7 @@ import { MainComponent } from './layouts/main/main.component';
 import { AuthComponent } from './layouts/auth/auth.component';
 import { AdminComponent } from './layouts/admin/admin.component';
 import { DashboardComponent } from './admin/dashboard/dashboard.component';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -70,6 +71,7 @@ export const routes: Routes = [
     path: 'admin',
     title: 'Admin Dashboard',
     component: AdminComponent,
+    canActivate: [authGuard],
     children: [
       {
         path: '',
@@ -77,10 +79,10 @@ export const routes: Routes = [
         component: DashboardComponent,
       },
       {
-        path:'dashboard',
+        path: 'dashboard',
         title: 'dashboard',
-        component:DashboardComponent
-      }
+        component: DashboardComponent,
+      },
     ],
   },
   {
