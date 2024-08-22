@@ -6,29 +6,34 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { LoginForm } from '../../../data/login.model';
+import { LoginCredentials } from '../../../data/login.model';
 import { NgIf } from '@angular/common';
 import { Router } from '@angular/router';
+import { LoginService } from '../../../services/login/login.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CustomSpinnerComponent, ReactiveFormsModule,NgIf],
+  imports: [CustomSpinnerComponent, ReactiveFormsModule, NgIf],
   templateUrl: './login.component.html',
   styles: ``,
 })
 export class LoginComponent {
   loginForm: FormGroup;
 
-  constructor(private fb: FormBuilder,private router:Router) {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private loginService: LoginService
+  ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
     });
   }
 
-   // Helper methods to check form control validity
-   isInvalid(controlName: string): boolean {
+  // Helper methods to check form control validity
+  isInvalid(controlName: string): boolean {
     const control = this.loginForm.get(controlName);
     return (
       control != null && control.invalid && (control.dirty || control.touched)
@@ -37,8 +42,20 @@ export class LoginComponent {
 
   onSubmit(): void {
     if (this.loginForm.valid) {
-      const loginData: LoginForm = this.loginForm.value;
-      this.router.navigate(['/admin/dashboard']);
+      const newLogin: LoginCredentials = {
+        email: this.loginForm.value.email.trim(),
+        password: this.loginForm.value.password.trim(),
+      };
+      console.log(newLogin);
+      this.loginService.login(newLogin).subscribe(
+        (data)=> {
+          localStorage.setItem('token', data.token);
+          this.router.navigate(['/admin/dashboard']);
+        },
+        (error)=> {
+          console.log(error);
+        }
+      );
     }
   }
 }
