@@ -16,7 +16,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let contact of contacts;let i = index">
+                <tr *ngFor="let contact of contacts$ | async ;let i = index">
                     <th scope="row">{{ i + 1 }}</th>
                     <td>{{ contact.name }}</td>
                     <td>{{ contact.email }}</td>

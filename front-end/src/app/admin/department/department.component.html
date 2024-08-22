@@ -19,7 +19,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let department of departments; let i = index">
+                <tr *ngFor="let department of departments$ | async; let i = index">
                     <th scope="row">{{ i + 1 }}</th>
                     <td>{{ department.name }}</td>
                     <td>

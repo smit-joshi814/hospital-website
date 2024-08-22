@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Department } from '../../data/appointment.model';
 import { DepartmentService } from '../../services/department/department.service';
 import {
@@ -7,17 +7,19 @@ import {
   Validators,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { NgFor } from '@angular/common';
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { catchError, Observable, of, BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-department',
   standalone: true,
-  imports: [ReactiveFormsModule, NgFor],
+  imports: [ReactiveFormsModule, NgFor, NgIf,AsyncPipe],
   templateUrl: './department.component.html',
   styles: [],
 })
-export class DepartmentComponent {
-  departments: Department[] = [];
+export class DepartmentComponent implements OnInit {
+  private departmentsSubject = new BehaviorSubject<Department[]>([]);
+  departments$: Observable<Department[]> = this.departmentsSubject.asObservable();
   departmentForm: FormGroup;
   selectedDepartment: Department | null = null;
 
@@ -32,11 +34,13 @@ export class DepartmentComponent {
   }
 
   // Load all departments
-  loadDepartments(): void {
-    this.departmentService.getDepartments().subscribe(
-      (data) => (this.departments = data),
-      (error) => console.error('Error loading departments', error)
-    );
+  loadDepartments() {
+    this.departmentService.getDepartments().pipe(
+      catchError((error) => {
+        console.error('Error loading departments', error);
+        return of([]); // Handle the error appropriately
+      })
+    ).subscribe(departments => this.departmentsSubject.next(departments));
   }
 
   // Add a new department
@@ -46,13 +50,20 @@ export class DepartmentComponent {
         id: 0,
         name: this.departmentForm.value.department,
       };
-      this.departmentService.addDepartment(newDepartment).subscribe(
-        (department) => {
-          this.departments.push(department);
+
+      this.departmentService.addDepartment(newDepartment).pipe(
+        catchError((error) => {
+          console.error('Error adding department', error);
+          return of(null); // Handle the error appropriately
+        })
+      ).subscribe((department) => {
+        if (department) {
+          // Update the list of departments
+          const departments = this.departmentsSubject.getValue();
+          this.departmentsSubject.next([...departments, department]);
           this.departmentForm.reset();
-        },
-        (error) => console.error('Error adding department', error)
-      );
+        }
+      });
     }
   }
 
@@ -71,22 +82,31 @@ export class DepartmentComponent {
         ...this.selectedDepartment,
         name: this.departmentForm.value.department,
       };
-      this.departmentService.updateDepartment(updatedDepartment).subscribe(
-        () => {
-          this.loadDepartments();
-          this.departmentForm.reset();
-          this.selectedDepartment = null;
-        },
-        (error) => console.error('Error updating department', error)
-      );
+
+      this.departmentService.updateDepartment(updatedDepartment).pipe(
+        catchError((error) => {
+          console.error('Error updating department', error);
+          return of(null); // Handle the error appropriately
+        })
+      ).subscribe(() => {
+        this.loadDepartments(); // Refresh the list of departments
+        this.departmentForm.reset();
+        this.selectedDepartment = null;
+      });
     }
   }
 
   // Delete a department
   deleteDepartment(id: number): void {
-    this.departmentService.deleteDepartment(id).subscribe(
-      () => (this.departments = this.departments.filter((d) => d.id !== id)),
-      (error) => console.error('Error deleting department', error)
-    );
+    this.departmentService.deleteDepartment(id).pipe(
+      catchError((error) => {
+        console.error('Error deleting department', error);
+        return of(null); // Handle the error appropriately
+      })
+    ).subscribe(() => {
+      // Remove the deleted department from the list
+      const departments = this.departmentsSubject.getValue();
+      this.departmentsSubject.next(departments.filter((d) => d.id !== id));
+    });
   }
 }

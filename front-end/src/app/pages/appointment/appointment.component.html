@@ -54,7 +54,7 @@
                                 <div class="nice-select form-control wide" tabindex="0">
                                     <span class="current">Department</span>
                                     <ul class="list">
-                                        <li *ngFor="let dept of departments"
+                                        <li *ngFor="let dept of departments$ | async"
                                             class="{{dept.id===appointmentForm.get('department')?.value?'option selected':'option'}}"
                                             (click)="appointmentForm.get('department')?.setValue(dept.id)">
                                             {{ dept.name }}
@@ -68,7 +68,7 @@
                                 <div class="nice-select form-control wide" tabindex="0">
                                     <span class="current">Doctor</span>
                                     <ul class="list">
-                                        <li *ngFor="let doc of doctors"
+                                        <li *ngFor="let doc of doctors$ | async"
                                             class="{{doc.id===appointmentForm.get('doctor')?.value?'option selected':'option'}}"
                                             (click)="appointmentForm.get('doctor')?.setValue(doc.id)">
                                             {{ doc.name }}
@@ -88,6 +88,7 @@
                                     placeholder="Write Your Message Here....."></textarea>
                             </div>
                         </div>
+                        <div class="col-lg-12 text-success mt-3 mb-3" [innerText]="message"></div>
                     </div>
                     <div class="row">
                         <div class="col-lg-5 col-md-4 col-12">

@@ -19,13 +19,13 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let doctor of doctors;let i=index">
+                <tr *ngFor="let doctor of doctors$ | async;let i=index">
                     <th scope="row">{{ i + 1 }}</th>
                     <td>{{ doctor.name }}</td>
                     <td>
                         <div>
                             <button class="btn-sm btn-outline-success mr-2" title="mark as done" data-toggle="modal"
-                                (click)="openEditModel(doctor)" data-target="#edit-doctor"><i
+                                (click)="openEditModal(doctor)" data-target="#edit-doctor"><i
                                     class="fa fa-pencil"></i></button>
                             <button class="btn-sm btn-outline-danger" title="remove doctor"
                                 (click)="deleteDoctor(doctor.id)"><i class="fa fa-close"></i></button>

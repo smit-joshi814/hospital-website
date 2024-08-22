@@ -18,7 +18,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let appointment of appointments; let i = index">
+                <tr *ngFor="let appointment of appointments$  | async; let i = index">
                     <th scope="row">{{ i + 1 }}</th>
                     <td>{{ appointment.name }}</td>
                     <td>{{ appointment.email }}</td>

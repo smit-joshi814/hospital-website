@@ -1,17 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { Contact } from '../../data/contact-form.model';
 import { ContactService } from '../../services/contact/contact.service';
-import { NgFor, NgIf } from '@angular/common';
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { BehaviorSubject, Observable, catchError, of } from 'rxjs';
 
 @Component({
   selector: 'app-inquiries',
   standalone: true,
-  imports: [NgFor, NgIf],
+  imports: [NgFor, NgIf, AsyncPipe],
   templateUrl: './inquiries.component.html',
-  styles: ``,
+  styles: [],
 })
 export class InquiriesComponent implements OnInit {
-  contacts: Contact[] = [];
+  private contactsSubject = new BehaviorSubject<Contact[]>([]);
+  contacts$: Observable<Contact[]> = this.contactsSubject.asObservable();
 
   constructor(private contactService: ContactService) {}
 
@@ -19,25 +21,36 @@ export class InquiriesComponent implements OnInit {
     this.loadInquiries();
   }
 
-  loadInquiries(): void {
-    this.contactService.getContacts().subscribe(
-      (contacts) => (this.contacts = contacts),
-      (error) => console.error('Error loading inquiries', error)
-    );
+  // Load all inquiries
+  loadInquiries() {
+    this.contactService
+      .getContacts()
+      .pipe(
+        catchError((error) => {
+          console.error('Error loading inquiries', error);
+          return of([]); // Handle the error appropriately
+        })
+      )
+      .subscribe((contacts) => this.contactsSubject.next(contacts));
   }
 
+  // Update contact status
   updateStatus(contact: Contact, newStatus: boolean) {
     const updatedContact: Contact = {
-      id: contact.id,
-      name: contact.name,
-      email: contact.email,
-      phone: contact.phone,
-      subject: contact.subject,
-      message: contact.message,
+      ...contact,
       status: newStatus,
     };
-    this.contactService.updateContact(updatedContact).subscribe(() => {
-      this.loadInquiries();
-    });
+
+    this.contactService
+      .updateContact(updatedContact)
+      .pipe(
+        catchError((error) => {
+          console.error('Error updating contact', error);
+          return of(null); // Handle the error appropriately
+        })
+      )
+      .subscribe(() => {
+        this.loadInquiries(); // Reload the inquiries after updating
+      });
   }
 }

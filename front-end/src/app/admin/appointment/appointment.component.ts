@@ -1,21 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { Appointment, Department, Doctor } from '../../data/appointment.model';
 import { AppointmentService } from '../../services/appointment/appointment.service';
-import { NgFor, NgIf } from '@angular/common';
 import { DepartmentService } from '../../services/department/department.service';
 import { DoctorService } from '../../services/doctor/doctor.service';
+import { catchError, Observable, of, BehaviorSubject } from 'rxjs';
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-appointment',
   standalone: true,
-  imports: [NgFor, NgIf],
+  imports: [NgFor, NgIf, AsyncPipe],
   templateUrl: './appointment.component.html',
-  styles: ``,
+  styles: [],
 })
 export class AppointmentComponent implements OnInit {
-  appointments: Appointment[] = [];
-  departments: Department[] = [];
-  doctors: Doctor[] = [];
+  appointments$!: Observable<Appointment[]>;
+  departments$!: Observable<Department[]>;
+  doctors$!: Observable<Doctor[]>;
+
+  private departmentsSubject = new BehaviorSubject<Department[]>([]);
+  private doctorsSubject = new BehaviorSubject<Doctor[]>([]);
 
   constructor(
     private appointmentService: AppointmentService,
@@ -23,65 +27,73 @@ export class AppointmentComponent implements OnInit {
     private doctorService: DoctorService
   ) {}
 
-  ngOnInit(): void {
-    this.loadAppointments();
-    this.loadDepartments();
-    this.loadDoctors();
+  ngOnInit() {
+    this.appointments$ = this.loadAppointments();
+    this.departments$ = this.loadDepartments();
+    this.doctors$ = this.loadDoctors();
+
+    // Subscribe to departments and doctors to store their values
+    this.departments$.subscribe((departments) =>
+      this.departmentsSubject.next(departments)
+    );
+    this.doctors$.subscribe((doctors) => this.doctorsSubject.next(doctors));
   }
 
-  loadAppointments() {
-    this.appointmentService.getAppointments().subscribe(
-      (appointments) => (this.appointments = appointments),
-      (error) => console.error('error loading appointments', error)
+  loadAppointments(): Observable<Appointment[]> {
+    return this.appointmentService.getAppointments().pipe(
+      catchError((error) => {
+        console.error('Error loading appointments', error);
+        return of([]); // Handle the error appropriately
+      })
     );
   }
 
-  // Load all departments
-  loadDepartments(): void {
-    this.departmentService.getDepartments().subscribe(
-      (data) => (this.departments = data),
-      (error) => console.error('Error loading departments', error)
+  loadDepartments(): Observable<Department[]> {
+    return this.departmentService.getDepartments().pipe(
+      catchError((error) => {
+        console.error('Error loading departments', error);
+        return of([]); // Handle the error appropriately
+      })
     );
   }
 
-  loadDoctors(): void {
-    this.doctorService.getDoctors().subscribe(
-      (data) => (this.doctors = data),
-      (error) => console.error('Error loading doctors', error)
+  loadDoctors(): Observable<Doctor[]> {
+    return this.doctorService.getDoctors().pipe(
+      catchError((error) => {
+        console.error('Error loading doctors', error);
+        return of([]); // Handle the error appropriately
+      })
     );
   }
 
-  // Get department name by ID
   getDepartmentName(departmentId: number): string {
-    const department = this.departments.find(
-      (dept) => dept.id === departmentId
-    );
+    const departments = this.departmentsSubject.getValue();
+    const department = departments.find((dept) => dept.id === departmentId);
     return department ? department.name : 'Unknown';
   }
 
-  // Get doctor name by ID
   getDoctorName(doctorId: number): string {
-    const doctor = this.doctors.find((doc) => doc.id === doctorId);
+    const doctors = this.doctorsSubject.getValue();
+    const doctor = doctors.find((doc) => doc.id === doctorId);
     return doctor ? doctor.name : 'Unknown';
   }
 
-  updateAppointment(appointment: Appointment, newStatus: boolean) {
+  updateAppointment(appointment: Appointment, newStatus: boolean): void {
     const updatedAppointment: Appointment = {
-      id: appointment.id,
-      name: appointment.name,
-      email: appointment.email,
-      phone: appointment.phone,
-      date: appointment.date,
-      message: appointment.message,
-      department: appointment.department,
-      doctor: appointment.doctor,
+      ...appointment,
       status: newStatus,
     };
 
     this.appointmentService
       .updateAppointment(updatedAppointment)
+      .pipe(
+        catchError((error) => {
+          console.error('Error updating appointment', error);
+          return of(null); // Handle the error appropriately
+        })
+      )
       .subscribe(() => {
-        this.loadAppointments();
+        this.appointments$ = this.loadAppointments(); // Reload appointments
       });
   }
 }

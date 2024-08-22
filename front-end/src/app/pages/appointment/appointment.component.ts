@@ -1,29 +1,43 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CustomSpinnerComponent } from '../../common/utility/custom-spinner/custom-spinner.component';
 import {
   FormBuilder,
   FormGroup,
-  ReactiveFormsModule,
   Validators,
+  ReactiveFormsModule,
 } from '@angular/forms';
 import { Appointment, Department, Doctor } from '../../data/appointment.model';
-import { NgFor } from '@angular/common';
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { DepartmentService } from '../../services/department/department.service';
 import { DoctorService } from '../../services/doctor/doctor.service';
 import { AppointmentService } from '../../services/appointment/appointment.service';
 import { RouterLink } from '@angular/router';
+import { BehaviorSubject, Observable, catchError, of } from 'rxjs';
 
 @Component({
   selector: 'app-appointment',
   standalone: true,
-  imports: [CustomSpinnerComponent, ReactiveFormsModule, NgFor,RouterLink],
+  imports: [
+    CustomSpinnerComponent,
+    ReactiveFormsModule,
+    NgFor,
+    NgIf,
+    RouterLink,
+    AsyncPipe,
+  ],
   templateUrl: './appointment.component.html',
-  styles: ``,
+  styles: [],
 })
-export class AppointmentComponent {
+export class AppointmentComponent implements OnInit {
   appointmentForm: FormGroup;
-  departments: Department[] = [];
-  doctors: Doctor[] = [];
+  departments$!: Observable<Department[]>;
+  doctors$!: Observable<Doctor[]>;
+  message:string="";
+
+  private appointmentAddedSubject = new BehaviorSubject<Appointment | null>(
+    null
+  );
+  appointmentAdded$ = this.appointmentAddedSubject.asObservable();
 
   constructor(
     private fb: FormBuilder,
@@ -43,22 +57,27 @@ export class AppointmentComponent {
   }
 
   ngOnInit(): void {
-    this.loadDepartments();
-    this.loadDoctors();
+    this.departments$ = this.loadDepartments();
+    this.doctors$ = this.loadDoctors();
   }
 
   // Load all departments
-  loadDepartments(): void {
-    this.departmentService.getDepartments().subscribe(
-      (data) => (this.departments = data),
-      (error) => console.error('Error loading departments', error)
+  loadDepartments(): Observable<Department[]> {
+    return this.departmentService.getDepartments().pipe(
+      catchError((error) => {
+        console.error('Error loading departments', error);
+        return of([]); // Handle the error appropriately
+      })
     );
   }
 
-  loadDoctors(): void {
-    this.doctorService.getDoctors().subscribe(
-      (data) => (this.doctors = data),
-      (error) => console.error('Error loading doctors', error)
+  // Load all doctors
+  loadDoctors(): Observable<Doctor[]> {
+    return this.doctorService.getDoctors().pipe(
+      catchError((error) => {
+        console.error('Error loading doctors', error);
+        return of([]); // Handle the error appropriately
+      })
     );
   }
 
@@ -74,13 +93,23 @@ export class AppointmentComponent {
         department: this.appointmentForm.value.department,
         doctor: this.appointmentForm.value.doctor,
       };
-      this.appointmentService.addApointment(newAppointment).subscribe(
-        (appointment) => {
-          console.log('Appointment added successfully', appointment);
-          this.appointmentForm.reset();
-        },
-        (error) => console.error('Error adding appointment', error)
-      );
+
+      this.appointmentService
+        .addApointment(newAppointment)
+        .pipe(
+          catchError((error) => {
+            console.error('Error adding appointment', error);
+            return of(null); // Handle the error appropriately
+          })
+        )
+        .subscribe((appointment) => {
+          if (appointment) {
+            this.message="Appointment created successfully";
+            console.log('Appointment added successfully', appointment);
+            this.appointmentAddedSubject.next(appointment);
+            this.appointmentForm.reset();
+          }
+        });
     }
   }
 }
