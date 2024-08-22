@@ -116,5 +116,9 @@ The frontend is developed using Angular, a platform and framework for building s
 
 5. **Create a Pull Request** on GitHub.
 
+
+![image](https://github.com/user-attachments/assets/dbc96a36-3dfb-466e-ac46-f93e0269ff92)
+
+
 ### Contact
 For any questions or further information, please contact [linkedIn](https://www.linkedin.com/in/smit-joshi814/).
