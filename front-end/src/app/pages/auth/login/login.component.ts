@@ -20,6 +20,7 @@ import { LoginService } from '../../../services/login/login.service';
 })
 export class LoginComponent {
   loginForm: FormGroup;
+  message:string="";
 
   constructor(
     private fb: FormBuilder,
@@ -53,6 +54,7 @@ export class LoginComponent {
           this.router.navigate(['/admin/dashboard']);
         },
         (error)=> {
+          this.message=error.message;
           console.log(error);
         }
       );
