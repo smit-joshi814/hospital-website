@@ -11,11 +11,12 @@ import { NgFor } from '@angular/common';
 import { DepartmentService } from '../../services/department/department.service';
 import { DoctorService } from '../../services/doctor/doctor.service';
 import { AppointmentService } from '../../services/appointment/appointment.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-appointment',
   standalone: true,
-  imports: [CustomSpinnerComponent, ReactiveFormsModule, NgFor],
+  imports: [CustomSpinnerComponent, ReactiveFormsModule, NgFor,RouterLink],
   templateUrl: './appointment.component.html',
   styles: ``,
 })

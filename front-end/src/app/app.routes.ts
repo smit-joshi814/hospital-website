@@ -14,7 +14,7 @@ import { DashboardComponent } from './admin/dashboard/dashboard.component';
 export const routes: Routes = [
   {
     path: '',
-    title: 'Title',
+    title: 'Main Component',
     component: MainComponent,
     children: [
       {

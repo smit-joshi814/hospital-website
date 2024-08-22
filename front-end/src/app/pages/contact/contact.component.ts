@@ -10,11 +10,12 @@ import {
 import { Contact } from '../../data/contact-form.model';
 import { NgIf } from '@angular/common';
 import { ContactService } from '../../services/contact/contact.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-contact',
   standalone: true,
-  imports: [CustomSpinnerComponent, ReactiveFormsModule, NgIf],
+  imports: [CustomSpinnerComponent, ReactiveFormsModule, NgIf,RouterLink],
   templateUrl: './contact.component.html',
   styles: ``,
 })
