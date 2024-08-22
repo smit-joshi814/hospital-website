@@ -46,6 +46,6 @@ export class AppointmentService {
       errorMessage = `Server returned code: ${error.status}, error message is: ${error.message}`;
     }
     console.error(errorMessage);
-    return throwError(errorMessage);
+    return throwError(() => new Error(errorMessage));
   }
 }
