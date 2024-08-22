@@ -7,8 +7,9 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ContactForm } from '../../data/contact-form.model';
+import { Contact } from '../../data/contact-form.model';
 import { NgIf } from '@angular/common';
+import { ContactService } from '../../services/contact/contact.service';
 
 @Component({
   selector: 'app-contact',
@@ -20,25 +21,27 @@ import { NgIf } from '@angular/common';
 export class ContactComponent {
   contactForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,private contactService:ContactService) {
     this.contactForm = this.fb.group({
       name: new FormControl('', Validators.required),
       email: new FormControl('', [Validators.required, Validators.email]),
       phone: new FormControl('', Validators.required),
       subject: new FormControl('', Validators.required),
       message: new FormControl('', Validators.required),
-      subscribe: new FormControl(false),
     });
   }
 
 
   onSubmit() {
     if (this.contactForm.valid) {
-      const formData: ContactForm = this.contactForm.value;
-      console.log('Form Data:', formData);
-
-      // Here, you can send the form data to the server
-      // Example: this.http.post('/api/contact', formData).subscribe(...);
+      const newContact: Contact = {id:0,name: this.contactForm.value.name, email: this.contactForm.value.email, phone: this.contactForm.value.phone, subject: this.contactForm.value.subject, message: this.contactForm.value.message};
+      this.contactService.addContact(newContact).subscribe(
+        (contact) => {
+          console.log('Contact added successfully', contact);
+          this.contactForm.reset();
+        },
+        (error) => console.error('Error adding contact', error)
+      );
     }
   }
 
