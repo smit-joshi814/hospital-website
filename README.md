@@ -5,8 +5,8 @@
 2. **back-end** : [Render](https://hospital-website-backend-1how.onrender.com)
 
 ### admin credentials
-**email**: **admin@gmail.com**
-**password**:**admin**
+- **email**: admin@gmail.com
+- **password**: admin
 
 ## Project Description
 
