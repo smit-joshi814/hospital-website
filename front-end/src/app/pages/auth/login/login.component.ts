@@ -54,7 +54,7 @@ export class LoginComponent {
           this.router.navigate(['/admin/dashboard']);
         },
         (error)=> {
-          this.message=error.message;
+          this.message="Invalid Email or Password";
           console.log(error);
         }
       );
