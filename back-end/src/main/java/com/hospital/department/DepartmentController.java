@@ -27,19 +27,19 @@ public class DepartmentController {
 	}
 
 	@PostMapping
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<Department> addDepartment(@RequestBody Department department) {
 		return ResponseEntity.ok(service.addDepartment(department));
 	}
 
 	@PutMapping("{id}")
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<Department> updateDepartment(@PathVariable Integer id, @RequestBody Department department) {
 		return ResponseEntity.ok(service.updateDepartment(department));
 	}
 
 	@DeleteMapping("{id}")
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public void deleteDepartment(@PathVariable Integer id) {
 		service.removeDepartment(id);
 	}

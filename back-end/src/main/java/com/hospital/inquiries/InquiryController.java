@@ -22,7 +22,7 @@ public class InquiryController {
 	private InquiryService service;
 
 	@GetMapping
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<List<Inquiry>> getInquiries() {
 		return ResponseEntity.ok(service.getInquiries());
 	}
@@ -33,13 +33,13 @@ public class InquiryController {
 	}
 
 	@PutMapping("{id}")
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<Inquiry> updateInquiry(@PathVariable Integer id, @RequestBody Inquiry inquiry) {
 		return ResponseEntity.ok(service.updateInquiry(inquiry));
 	}
 
 	@DeleteMapping("{id}")
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public void deleteInquiry(@PathVariable Integer id) {
 		service.deleteInquiry(id);
 	}

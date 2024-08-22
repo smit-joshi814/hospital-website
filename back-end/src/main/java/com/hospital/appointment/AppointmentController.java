@@ -22,7 +22,7 @@ public class AppointmentController {
 	private AppointmentService service;
 
 	@GetMapping
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<List<Appointment>> getAppointments() {
 		return ResponseEntity.ok(service.getAppointments());
 	}
@@ -33,14 +33,14 @@ public class AppointmentController {
 	}
 
 	@PutMapping("{id}")
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<Appointment> updateAppointment(@PathVariable Integer id,
 			@RequestBody Appointment appointment) {
 		return ResponseEntity.ok(service.updateAppointment(appointment));
 	}
 
 	@DeleteMapping("{id}")
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public void deleteAppointment(@PathVariable Integer id) {
 		service.deleteAppointment(id);
 	}

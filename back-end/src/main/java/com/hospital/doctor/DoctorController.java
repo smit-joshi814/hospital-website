@@ -26,19 +26,19 @@ public class DoctorController {
 	}
 
 	@PostMapping
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	ResponseEntity<Doctor> addDoctor(@RequestBody Doctor doctor) {
 		return ResponseEntity.ok(service.addDoctor(doctor));
 	}
 
 	@PutMapping("{id}")
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	ResponseEntity<Doctor> updateDoctor(@PathVariable Integer id, @RequestBody Doctor doctor) {
 		return ResponseEntity.ok(service.updateDoctor(doctor));
 	}
 
 	@DeleteMapping("{id}")
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	void deleteDoctor(@PathVariable Integer id) {
 		service.deleteDoctor(id);
 	}
