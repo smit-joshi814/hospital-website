@@ -81,6 +81,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>hospital</finalName>
 	</build>
 
 </project>
