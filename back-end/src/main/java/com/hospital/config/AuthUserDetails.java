@@ -12,7 +12,7 @@ import com.hospital.user.Users;
 
 public class AuthUserDetails implements UserDetails {
 
-    private final String ROLE_PREFIX = "ROLE_ADMIN";
+    private final String ROLE = "ADMIN";
 
     private static final long serialVersionUID = 1L;
 
@@ -24,7 +24,7 @@ public class AuthUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority(ROLE_PREFIX));
+        return Collections.singleton(new SimpleGrantedAuthority(ROLE));
     }
 
     @Override
@@ -59,7 +59,7 @@ public class AuthUserDetails implements UserDetails {
 
     @Override
     public int hashCode() {
-        return Objects.hash(ROLE_PREFIX, user);
+        return Objects.hash(ROLE, user);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class AuthUserDetails implements UserDetails {
         if ((obj == null) || (getClass() != obj.getClass()))
             return false;
         AuthUserDetails other = (AuthUserDetails) obj;
-        return Objects.equals(ROLE_PREFIX, other.ROLE_PREFIX) && Objects.equals(user, other.user);
+        return Objects.equals(ROLE, other.ROLE) && Objects.equals(user, other.user);
     }
 
 }
